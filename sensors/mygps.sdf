@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<sdf version="1.12">
+  <model name="gps_sensor_model">
+    <link name="link">
+      <sensor name="gps_sensor" type="gps">
+        <always_on>true</always_on>
+        <update_rate>1.0</update_rate>
+        <visualize>false</visualize>
+        <topic>gps_topic</topic>
+        <gps>
+          <position_sensing>
+            <horizontal>
+              <standard_deviation>0.5</standard_deviation>
+            </horizontal>
+            <vertical>
+              <standard_deviation>0.5</standard_deviation>
+            </vertical>
+          </position_sensing>
+        </gps>
+        <pose>0 0 1 0 0 0</pose>
+      </sensor>
+    </link>
+  </model>
+</sdf>
+
