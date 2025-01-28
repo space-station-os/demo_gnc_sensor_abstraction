@@ -9,46 +9,19 @@ endif()
 find_package(ament_cmake REQUIRED) 
 find_package(rclcpp REQUIRED) 
 find_package(std_msgs REQUIRED)
-find_package(ament_index_cpp REQUIRED) 
-# find_package(gazebo_ros REQUIRED) 
-#find_package(tinyxml2_vendor REQUIRED) 
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
-
-#list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-#find_package(tinyxml2 REQUIRED)
-# Locate tinyxml2 manually
-find_path(TINYXML2_INCLUDE_DIR tinyxml2.h)
-find_library(TINYXML2_LIBRARY tinyxml2)
-
-if (NOT TINYXML2_INCLUDE_DIR)
-  message(FATAL_ERROR "Could not find tinyxml2.h")
-endif()
-
-if (NOT TINYXML2_LIBRARY)
-  message(FATAL_ERROR "Could not find the tinyxml2 library")
-endif()
-
-include_directories(${TINYXML2_INCLUDE_DIR})
+find_package(sensor_msgs REQUIRED)
 
 
-add_executable(demo_sensor src/demo_sensor.cpp) 
-#ament_target_dependencies(demo_sensor rclcpp gazebo_ros tinyxml2) 
 
-target_link_libraries(demo_sensor ${TINYXML2_LIBRARY})
 
-ament_target_dependencies(demo_sensor rclcpp std_msgs ament_index_cpp) 
 
-install(TARGETS
-  demo_sensor
-  DESTINATION lib/${PROJECT_NAME}) 
+install(DIRECTORY
+  launch
+  models
+  URDF
+  world
   
-install(DIRECTORY launch/
-  DESTINATION share/${PROJECT_NAME}/launch) 
- 
-install(DIRECTORY sensors/
-  DESTINATION share/${PROJECT_NAME}/sensors)
+  DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
