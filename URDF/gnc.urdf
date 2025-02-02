@@ -1,0 +1,137 @@
+<?xml version='1.0'?>
+
+<robot name="gnc_station" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find demo_gnc_sensor_abstraction)/URDF/gnc.gazebo" />
+  <xacro:include filename="$(find demo_gnc_sensor_abstraction)/URDF/materials.xacro" />
+
+  <link name="gnc_base">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0002544970294304579 -2.7411733823236023e-17 0.08341254857000653"/>
+      <mass value="14.333340375312384"/>
+      <inertia ixx="0.173307" ixy="0.0" ixz="-0.000171" iyy="0.373229" iyz="0.0" izz="0.490917"/>
+    </inertial>
+
+    <!-- Visual Representation -->
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box>
+          <size>2.0 1.0 0.5</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>1 1 1 1</ambient>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>1 1 1 1</specular>
+      </material>
+    </visual>
+
+    <!-- Collision Properties -->
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box>
+          <size>2.0 1.1 0.5</size> 
+        </box>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint type="fixed" name="camera_joint">
+      <origin xyz="0.225 0 0.075" rpy="0 0 0"/>
+      <child link="camera_link"/>
+      <parent link="gnc_base"/>
+      <axis xyz="0 1 0" />
+    </joint>
+
+    <link name='camera_link'>
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <mass value="0.1"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+            ixx="1e-6" ixy="0" ixz="0"
+            iyy="1e-6" iyz="0"
+            izz="1e-6"
+        />
+      </inertial>
+    <collision name='collision'>
+        <origin xyz="0 0 0" rpy="0 0 0"/> 
+        <geometry>
+          <box size=".03 .03 .03"/>
+        </geometry>
+      </collision>
+
+      <visual name='camera_link_visual'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size=".03 .03 .03"/>
+        </geometry>
+      </visual>
+
+    </link>
+    <gazebo reference="camera_link">
+      <material>Gazebo/Red</material>
+    </gazebo>
+
+    <joint type="fixed" name="camera_optical_joint">
+      <origin xyz="0 0 0" rpy="-1.5707 0 -1.5707"/>
+      <child link="camera_link_optical"/>
+      <parent link="camera_link"/>
+    </joint>
+
+    <link name="camera_link_optical">
+    </link>
+    
+
+    <joint name="imu_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="gnc_base"/>
+      <child link="imu_link" />
+    </joint>
+    <link name="imu_link">
+    </link>
+
+    
+    <joint name="navsat_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="gnc_base"/>
+      <child link="navsat_link" />
+    </joint>
+
+    <link name="navsat_link">
+    </link>
+
+  
+    <joint type="fixed" name="scan_joint">
+      <origin xyz="0.0 0 0.15" rpy="0 0 0"/>
+      <child link="scan_link"/>
+      <parent link="gnc_base"/>
+      <axis xyz="0 1 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name='scan_link'>
+      <inertial>
+        <mass value="1e-5"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia
+            ixx="1e-6" ixy="0" ixz="0"
+            iyy="1e-6" iyz="0"
+            izz="1e-6"
+        />
+      </inertial>
+      <collision name='collision'>
+        <origin xyz="0 0 0" rpy="0 0 0"/> 
+        <geometry>
+          <box size=".1 .1 .1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <gazebo reference="scan_link">
+      <selfCollide>false</selfCollide>
+      <mu1 value="0.05" />
+      <mu2 value="0.05" />
+    </gazebo>
+</robot>
